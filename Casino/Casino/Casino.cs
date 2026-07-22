@@ -1,78 +1,101 @@
-﻿
-int balance = 1000;
-int multiplicator = 1;
-bool isRunning = true;
-
-while ( isRunning )
-
+﻿internal class Casino
 {
-    Console.WriteLine( "1 Считать баланс" );
-    Console.WriteLine( "2 Сделать ставку" );
-    Console.WriteLine( "3 Выход" );
+    private const int Multiplicator = 1;
+    private const int MinNumber = 1;
+    private const int MaxNumber = 20;
 
+    private static readonly int[] LuckyNumbers = { 18, 19, 20 };
 
-    string? command = Console.ReadLine();
-    if ( command is not null ) ParseCommand( command );
-}
+    private int _balance;
 
-void ParseCommand( string command )
-{
-    switch ( command )
+    internal void Run()
     {
-        case "1":
-            Console.WriteLine( $"Ваш баланс: {balance}$" );
-            break;
-        case "2":
-            Play();
-            break;
-        case "3":
-            Console.WriteLine( "Выход из игры." );
-            isRunning = false;
-            break;
-        default:
-            Console.WriteLine( "Неизвестная команда" );
-            break;
-    }
-}
+        bool isRunning = true;
 
-void Play()
-{
-    if ( balance <= 0 )
-    {
-        Console.WriteLine( "У вас закончились деньги" );
-        return;
+        while ( isRunning )
+        {
+            PrintMenu();
+
+            string? command = Console.ReadLine();
+            isRunning = ParseCommand( command );
+        }
     }
 
-    Console.WriteLine( $"Ваш баланс: {balance}$. Введите ставку:" );
-
-    if ( !int.TryParse( Console.ReadLine(), out int stavka ) || stavka <= 0 )
+    private void PrintMenu()
     {
-        Console.WriteLine( "Некорректная сумма ставки" );
-        return;
+        Console.WriteLine( "1 Считать баланс" );
+        Console.WriteLine( "2 Сделать ставку" );
+        Console.WriteLine( "3 Выход" );
     }
 
-    if ( stavka > balance )
+    private bool ParseCommand( string? command )
     {
-        Console.WriteLine( "У вас нет столько денег для ставки!" );
-        return;
+        switch ( command )
+        {
+            case "1":
+                Console.WriteLine( $"Ваш баланс: {_balance}$" );
+                return true;
+            case "2":
+                Play();
+                return true;
+            case "3":
+                Console.WriteLine( "Выход из игры." );
+                return false;
+            default:
+                Console.WriteLine( "Неизвестная команда" );
+                return true;
+        }
     }
 
-    int winnum = Random.Shared.Next( 1, 21 );
-    int[] luckyNumbers = { 18, 19, 20 };
+    private void Play()
+    {
+        if ( _balance <= 0 )
+        {
+            Console.WriteLine( "У вас закончились деньги" );
+            return;
+        }
 
-    if ( luckyNumbers.Contains( winnum ) )
-    {
-        int winAmount = stavka * ( 1 + ( multiplicator * winnum ) % 17 );
-        balance += winAmount;
-        Console.WriteLine( $"Выпало число {winnum}." );
-        Console.WriteLine( $"Вы выиграли: {winAmount}" );
-        Console.WriteLine( $"Ваш новый баланс: {balance}" );
+        Console.WriteLine( $"Ваш баланс: {_balance}$. Введите ставку:" );
+
+        if ( !int.TryParse( Console.ReadLine(), out int stavka ) )
+        {
+            Console.WriteLine( "Некорректная сумма ставки" );
+            return;
+        }
+
+        if ( stavka <= 0 )
+        {
+            Console.WriteLine( "Ставка должна быть больше нуля" );
+            return;
+        }
+
+        if ( stavka > _balance )
+        {
+            Console.WriteLine( "У вас нет столько денег для ставки!" );
+            return;
+        }
+
+        MakeBet( stavka );
     }
-    else
+
+    private void MakeBet( int stavka )
     {
-        balance -= stavka;
-        Console.WriteLine( $"Проигрыш. Выпало число {winnum}." );
-        Console.WriteLine( $"Вы потеряли: {stavka}" );
-        Console.WriteLine( $"Ваш новый баланс: {balance}" );
+        int winnum = Random.Shared.Next( MinNumber, MaxNumber + 1 );
+
+        if ( LuckyNumbers.Contains( winnum ) )
+        {
+            int winAmount = stavka * ( 1 + Multiplicator * ( winnum % ( MinNumber - 1 ) ) );
+            _balance += winAmount;
+            Console.WriteLine( $"Выпало число {winnum}." );
+            Console.WriteLine( $"Вы выиграли: {winAmount}" );
+            Console.WriteLine( $"Ваш новый баланс: {_balance}" );
+        }
+        else
+        {
+            _balance -= stavka;
+            Console.WriteLine( $"Проигрыш. Выпало число {winnum}." );
+            Console.WriteLine( $"Вы потеряли: {stavka}" );
+            Console.WriteLine( $"Ваш новый баланс: {_balance}" );
+        }
     }
 }
