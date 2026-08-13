@@ -1,0 +1,128 @@
+using Domain.Entities;
+using Domain.Exceptions;
+using Domain.Interfaces.Repositories;
+using Domain.Interfaces.Services;
+
+namespace Infrastructure.Foundation.Services;
+
+public class ReservationService(
+    IReservationRepository reservationRepository,
+    IRoomTypeRepository roomTypeRepository,
+    IPropertyRepository propertyRepository ) : IReservationService
+{
+    public IReadOnlyList<Reservation> GetReservations( Guid? propertyId, DateOnly? fromDate, DateOnly? toDate, string? guestName )
+    {
+        return reservationRepository.GetFiltered( propertyId, fromDate, toDate, guestName );
+    }
+
+    public Reservation GetReservation( Guid id )
+    {
+        return reservationRepository.GetById( id ) ?? throw new EntityNotFoundException( "Бронирование не найдено" );
+    }
+
+    public Guid CreateReservation(
+        Guid roomTypeId,
+        DateOnly arrivalDate,
+        DateOnly departureDate,
+        TimeOnly arrivalTime,
+        TimeOnly departureTime,
+        string guestName,
+        string guestPhoneNumber,
+        int guestCount )
+    {
+        var roomType = roomTypeRepository.GetById( roomTypeId )
+            ?? throw new EntityNotFoundException( "Тип номера не найден" );
+
+        if ( departureDate <= arrivalDate )
+            throw new BusinessRuleViolationException( "Дата выезда должна быть позже даты заезда" );
+
+        if ( guestCount < roomType.MinPersonCount || guestCount > roomType.MaxPersonCount )
+            throw new BusinessRuleViolationException( $"Количество гостей должно быть от {roomType.MinPersonCount} до {roomType.MaxPersonCount}" );
+
+        int bookedRooms = CountBookedRooms( roomTypeId, arrivalDate, departureDate );
+        if ( bookedRooms >= roomType.AvailableRoomsCount )
+            throw new BusinessRuleViolationException( "Нет свободных номеров на выбранный период" );
+
+        int nights = departureDate.DayNumber - arrivalDate.DayNumber;
+        decimal total = roomType.DailyPrice * nights;
+
+        var reservation = new Reservation(
+            roomType.PropertyId,
+            roomTypeId,
+            arrivalDate,
+            departureDate,
+            arrivalTime,
+            departureTime,
+            guestName,
+            guestPhoneNumber,
+            guestCount,
+            total,
+            roomType.Currency );
+
+        reservationRepository.Add( reservation );
+        return reservation.Id;
+    }
+
+    public void CancelReservation( Guid id )
+    {
+        var reservation = GetReservation( id );
+
+        if ( reservation.IsCancelled )
+            throw new BusinessRuleViolationException( "Бронирование уже отменено" );
+
+        reservation.Cancel();
+        reservationRepository.Update( reservation );
+    }
+
+    public IReadOnlyList<AvailableRoomType> SearchAvailable( string? city, DateOnly arrivalDate, DateOnly departureDate, int guests, decimal? maxPrice )
+    {
+        if ( departureDate <= arrivalDate )
+            throw new BusinessRuleViolationException( "Дата выезда должна быть позже даты заезда" );
+
+        var results = new List<AvailableRoomType>();
+        var properties = propertyRepository.GetAll();
+
+        foreach ( var property in properties )
+        {
+            if ( !string.IsNullOrWhiteSpace( city ) && !property.City.Equals( city, StringComparison.OrdinalIgnoreCase ) )
+                continue;
+
+            foreach ( var roomType in roomTypeRepository.GetByProperty( property.Id ) )
+            {
+                if ( guests < roomType.MinPersonCount || guests > roomType.MaxPersonCount )
+                    continue;
+
+                if ( maxPrice.HasValue && roomType.DailyPrice > maxPrice.Value )
+                    continue;
+
+                int bookedRooms = CountBookedRooms( roomType.Id, arrivalDate, departureDate );
+                int availableRooms = roomType.AvailableRoomsCount - bookedRooms;
+
+                if ( availableRooms <= 0 )
+                    continue;
+
+                int nights = departureDate.DayNumber - arrivalDate.DayNumber;
+
+                results.Add( new AvailableRoomType
+                {
+                    PropertyId = property.Id,
+                    PropertyName = property.Name,
+                    City = property.City,
+                    RoomTypeId = roomType.Id,
+                    RoomTypeName = roomType.Name,
+                    DailyPrice = roomType.DailyPrice,
+                    Currency = roomType.Currency,
+                    TotalForStay = roomType.DailyPrice * nights,
+                    AvailableRooms = availableRooms
+                } );
+            }
+        }
+
+        return results;
+    }
+
+    private int CountBookedRooms( Guid roomTypeId, DateOnly arrivalDate, DateOnly departureDate )
+    {
+        return reservationRepository.GetOverlapping( roomTypeId, arrivalDate, departureDate ).Count;
+    }
+}
