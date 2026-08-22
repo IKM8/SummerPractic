@@ -17,13 +17,13 @@ describe('MoreAbout', () => {
   it('shows the description for the Polish zloty', () => {
     render(<MoreAbout from={pln} to={jpy} />);
 
-    expect(screen.getByText(/The Polish zloty is the official currency/)).toBeInTheDocument();
+    expect(screen.getByText(/This is the official currency and legal tender of Poland/)).toBeInTheDocument();
   });
 
   it('shows the description for the Japanese yen', () => {
     render(<MoreAbout from={pln} to={jpy} />);
 
-    expect(screen.getByText(/The Japanese yen is the official currency/)).toBeInTheDocument();
+    expect(screen.getByText(/The yen is the official currency of Japan/)).toBeInTheDocument();
   });
 
   it('shows the code and symbol next to the currency title', () => {
