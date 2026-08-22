@@ -1,0 +1,39 @@
+@import 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap';
+
+:root {
+  --accent: #3f66bf;
+  --accent-active: #c4d7ff;
+  --bg-card: #fff;
+  --bg-page: #ebf4fb;
+  --border: #d9d9d9;
+  --danger: #fa3a3a;
+  --text-description: #767676;
+  --text-main: #000;
+  --text-secondary: #767676;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-block-size: 100vh;
+  margin: 0;
+
+  background: var(--bg-page);
+
+  color: var(--text-main);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+}

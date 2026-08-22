@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  max-inline-size: 410px;
+}
+
+.button {
+  inline-size: 200px;
+  block-size: 50px;
+  font:
+    700 22px/1 Inter,
+    sans-serif;
+}
