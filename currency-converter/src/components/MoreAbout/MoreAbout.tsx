@@ -11,7 +11,7 @@ export const MoreAbout = ({ from, to }: MoreAboutProps) => {
   return (
     <section className={styles.section}>
       <div className={styles.header}>
-        <Button className={styles.pairButton}>
+        <Button className={styles['pair-button']}>
           {from.code}/{to.code}: about
           <span className={styles.arrow} />
         </Button>

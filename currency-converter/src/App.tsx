@@ -14,7 +14,7 @@ export const App = () => {
 
   return (
     <main className={styles.page}>
-      <div className={styles.topHalf}>
+      <div className={styles['top-half']}>
         <Converter
           currencies={currencies}
           amount="1"
@@ -27,7 +27,7 @@ export const App = () => {
         <CurrencyChart periods={chartPeriods} currentPeriod={4} />
       </div>
 
-      <div className={styles.bottomHalf}>
+      <div className={styles['bottom-half']}>
         <CurrencyPairs pairs={currencyPairs} activePair="PLN/JPY" />
         <MoreAbout from={from} to={to} />
       </div>
