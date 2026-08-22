@@ -1,33 +1,10 @@
-$arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath d='M7.41 15.41 12 10.83l4.59 4.58L18 14l-6-6-6 6z' fill='%23000000'/%3E%3C/svg%3E");
-
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-}
-
-.pair-button {
-  inline-size: 215px;
-  block-size: 50px;
-  font:
-    400 20px/1 Inter,
-    sans-serif;
-}
-
 .arrow {
   display: inline-block;
   vertical-align: middle;
 
-  inline-size: 12px;
-  block-size: 12px;
+  inline-size: 15px;
+  block-size: 15px;
   margin-inline-start: 5px;
-
-  background: $arrow no-repeat center / contain;
 }
 
 .line {

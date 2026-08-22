@@ -1,3 +1,4 @@
+import arrowIcon from '../../assets/arrow.svg';
 import { Button } from '../Button/Button';
 import type { Currency } from '../../types/currency';
 import styles from './MoreAbout.module.scss';
@@ -13,7 +14,7 @@ export const MoreAbout = ({ from, to }: MoreAboutProps) => {
       <div className={styles.header}>
         <Button className={styles['pair-button']}>
           {from.code}/{to.code}: about
-          <span className={styles.arrow} />
+          <img className={styles.arrow} src={arrowIcon} alt="Arrow up" />
         </Button>
         <span className={styles.line} />
       </div>
