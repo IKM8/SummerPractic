@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "test": "vitest run",
+    "format": "prettier --write .",
     "lint": "run-s lint:*",
     "lint:eslint": "eslint src --ext .ts,.tsx",
     "lint:stylelint": "stylelint src/**/*.scss",

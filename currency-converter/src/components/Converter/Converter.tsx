@@ -1,18 +1,18 @@
-import type { Currency } from '../../types/currency'
-import { CurrencyInput } from '../CurrencyInput/CurrencyInput'
-import heroImage from '../../assets/hero.png'
-import styles from './Converter.module.scss'
+import type { Currency } from '../../types/currency';
+import { CurrencyInput } from '../CurrencyInput/CurrencyInput';
+import heroImage from '../../assets/hero.png';
+import styles from './Converter.module.scss';
 
 type ConverterProps = {
-  currencies: Currency[]
-  from: Currency
-  to: Currency
-  amount: string
-  rate: number
-}
+  currencies: Currency[];
+  from: Currency;
+  to: Currency;
+  amount: string;
+  rate: number;
+};
 
 export const Converter = ({ currencies, from, to, amount, rate }: ConverterProps) => {
-  const convertedAmount = (Number(amount) * rate).toFixed(2)
+  const convertedAmount = (Number(amount) * rate).toFixed(2);
 
   return (
     <div className={styles.card}>
@@ -28,5 +28,5 @@ export const Converter = ({ currencies, from, to, amount, rate }: ConverterProps
 
       <img src={heroImage} alt="Exchange rate chart" className={styles.chart} />
     </div>
-  )
-}
+  );
+};

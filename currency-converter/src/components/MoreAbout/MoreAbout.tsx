@@ -1,13 +1,13 @@
-import styles from './MoreAbout.module.scss'
-import type { Currency } from '../../types/currency'
+import styles from './MoreAbout.module.scss';
+import type { Currency } from '../../types/currency';
 
 type MoreAboutProps = {
-  from: Currency
-  to: Currency
-}
+  from: Currency;
+  to: Currency;
+};
 
 export const MoreAbout = ({ from, to }: MoreAboutProps) => {
-  const pair = [from, to]
+  const pair = [from, to];
 
   return (
     <section className={styles.section}>
@@ -18,5 +18,5 @@ export const MoreAbout = ({ from, to }: MoreAboutProps) => {
         </div>
       ))}
     </section>
-  )
-}
+  );
+};
