@@ -3,7 +3,7 @@ import { MoreAbout } from './components/MoreAbout/MoreAbout'
 import { currencies } from './data/currencies'
 import styles from './App.module.scss'
 
-function App() {
+export const App = () => {
   const from = currencies.find((c) => c.code === 'PLN')!
   const to = currencies.find((c) => c.code === 'JPY')!
   const rate = 0.99
@@ -15,5 +15,3 @@ function App() {
     </main>
   )
 }
-
-export default App
