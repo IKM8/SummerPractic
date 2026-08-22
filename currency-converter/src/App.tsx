@@ -10,7 +10,7 @@ export const App = () => {
 
   return (
     <main className={styles.page}>
-      <Converter currencies={currencies} amount="1" fromCode={from.code} toCode={to.code} rate={rate} />
+      <Converter currencies={currencies} amount="1" from={from} to={to} rate={rate} />
       <MoreAbout from={from} to={to} />
     </main>
   )

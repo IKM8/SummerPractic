@@ -5,23 +5,25 @@ import styles from './Converter.module.scss'
 
 type ConverterProps = {
   currencies: Currency[]
-  fromCode: string
-  toCode: string
+  from: Currency
+  to: Currency
   amount: string
   rate: number
 }
 
-export const Converter = ({ currencies, fromCode, toCode, amount, rate }: ConverterProps) => {
+export const Converter = ({ currencies, from, to, amount, rate }: ConverterProps) => {
+  const convertedAmount = (Number(amount) * rate).toFixed(2)
+
   return (
     <div className={styles.card}>
-      <p className={styles.subtitle}>1 Polish zloty is</p>
+      <p className={styles.subtitle}>1 {from.title} is</p>
       <div className={styles.rate}>
-        {rate} Japanese yen
+        {rate} {to.title}
       </div>
 
       <div className={styles.inputs}>
-        <CurrencyInput amount={amount} currencyCode={fromCode} currencies={currencies} />
-        <CurrencyInput amount={rate.toFixed(2)} currencyCode={toCode} currencies={currencies} />
+        <CurrencyInput amount={amount} currencyCode={from.code} currencies={currencies} />
+        <CurrencyInput amount={convertedAmount} currencyCode={to.code} currencies={currencies} />
       </div>
 
       <img src={heroImage} alt="Exchange rate chart" className={styles.chart} />
