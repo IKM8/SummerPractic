@@ -1,9 +1,9 @@
 :root {
-  --bg-card: #ffffff;
+  --bg-card: #fff;
   --bg-page: #f8f9fa;
   --border: #e0e0e0;
   --text-description: #5f6368;
-  --text-main: #111111;
+  --text-main: #111;
 }
 
 *,
@@ -14,7 +14,9 @@
 
 body {
   margin: 0;
+
   background: var(--bg-page);
+
   color: var(--text-main);
   font-family:
     Roboto,
@@ -23,5 +25,6 @@ body {
     BlinkMacSystemFont,
     'Segoe UI',
     sans-serif;
+
   -webkit-font-smoothing: antialiased;
 }

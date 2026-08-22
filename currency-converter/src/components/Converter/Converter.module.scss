@@ -1,26 +1,29 @@
 .card {
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+
+  inline-size: 400px;
+  padding: 24px;
+
   background: var(--bg-card);
   border-radius: 8px;
   box-shadow: 0 1px 3px rgb(0 0 0 / 5%);
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  padding: 24px;
-  width: 400px;
 }
 
 .subtitle {
+  margin: 0;
   color: var(--text-main);
   font-size: 14px;
   font-weight: 400;
-  margin: 0;
 }
 
 .rate {
+  margin-block-start: 4px;
   color: var(--text-main);
   font-size: 32px;
   font-weight: 600;
-  margin-block-start: 4px;
 }
 
 .inputs {
@@ -32,7 +35,7 @@
 
 .chart {
   display: block;
-  height: auto;
+  inline-size: 100%;
+  block-size: auto;
   margin-block-start: 20px;
-  width: 100%;
 }
