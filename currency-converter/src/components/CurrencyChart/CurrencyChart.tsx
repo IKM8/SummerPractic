@@ -1,4 +1,4 @@
-import chartImage from '../../assets/hero.png';
+import chartImage from '../../assets/chart.png';
 import { Button } from '../Button/Button';
 import styles from './CurrencyChart.module.scss';
 
