@@ -3,15 +3,26 @@ import { render, screen } from '@testing-library/react';
 import { CurrencyInput } from './CurrencyInput';
 import { currencies } from '../../data/currencies';
 
+const renderCurrencyInput = (currencyCode: string) =>
+  render(
+    <CurrencyInput
+      amountLabel="Сколько отдаёте"
+      currencyLabel="Валюта, которую отдаёте"
+      amount="100"
+      currencyCode={currencyCode}
+      currencies={currencies}
+    />
+  );
+
 describe('CurrencyInput', () => {
   it('renders the amount in the input', () => {
-    render(<CurrencyInput amount="100" currencyCode="PLN" currencies={currencies} />);
+    renderCurrencyInput('PLN');
 
     expect(screen.getByDisplayValue('100')).toBeInTheDocument();
   });
 
   it('renders all currency options', () => {
-    render(<CurrencyInput amount="100" currencyCode="PLN" currencies={currencies} />);
+    renderCurrencyInput('PLN');
 
     expect(screen.getAllByRole('option')).toHaveLength(currencies.length);
     for (const currency of currencies) {
@@ -20,14 +31,14 @@ describe('CurrencyInput', () => {
   });
 
   it('selects the provided currency code', () => {
-    render(<CurrencyInput amount="100" currencyCode="EUR" currencies={currencies} />);
+    renderCurrencyInput('EUR');
 
     const select = screen.getByRole('combobox');
     expect(select).toHaveValue('EUR');
   });
 
   it('marks the input as read-only and disables the select', () => {
-    render(<CurrencyInput amount="100" currencyCode="PLN" currencies={currencies} />);
+    renderCurrencyInput('PLN');
 
     expect(screen.getByRole('textbox')).toHaveAttribute('readonly');
     expect(screen.getByRole('combobox')).toBeDisabled();

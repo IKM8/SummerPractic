@@ -22,8 +22,20 @@ export const Converter = ({ currencies, from, to, amount, rate }: ConverterProps
       </div>
 
       <div className={styles.inputs}>
-        <CurrencyInput amount={amount} currencyCode={from.code} currencies={currencies} />
-        <CurrencyInput amount={convertedAmount} currencyCode={to.code} currencies={currencies} />
+        <CurrencyInput
+          amountLabel="Сколько отдаёте"
+          currencyLabel="Валюта, которую отдаёте"
+          amount={amount}
+          currencyCode={from.code}
+          currencies={currencies}
+        />
+        <CurrencyInput
+          amountLabel="Сколько получаете"
+          currencyLabel="Валюта, которую получаете"
+          amount={convertedAmount}
+          currencyCode={to.code}
+          currencies={currencies}
+        />
       </div>
 
       <img src={heroImage} alt="Exchange rate chart" className={styles.chart} />
