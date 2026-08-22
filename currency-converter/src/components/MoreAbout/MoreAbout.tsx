@@ -1,5 +1,4 @@
 import styles from './MoreAbout.module.scss'
-import { currencyDescriptions } from '../../data/currencies'
 import type { Currency } from '../../types/currency'
 
 type MoreAboutProps = {
@@ -15,9 +14,7 @@ export const MoreAbout = ({ from, to }: MoreAboutProps) => {
       {pair.map((currency) => (
         <div key={currency.code} className={styles.item}>
           <h2 className={styles.title}>{currency.title}</h2>
-          <p className={styles.description}>
-            {currencyDescriptions[currency.code] ?? 'No description available.'}
-          </p>
+          <p className={styles.description}>{currency.description}</p>
         </div>
       ))}
     </section>
