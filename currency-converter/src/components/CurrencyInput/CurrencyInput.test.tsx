@@ -20,10 +20,10 @@ describe('CurrencyInput', () => {
   });
 
   it('selects the provided currency code', () => {
-    render(<CurrencyInput amount="100" currencyCode="RUB" currencies={currencies} />);
+    render(<CurrencyInput amount="100" currencyCode="EUR" currencies={currencies} />);
 
     const select = screen.getByRole('combobox');
-    expect(select).toHaveValue('RUB');
+    expect(select).toHaveValue('EUR');
   });
 
   it('marks the input as read-only and disables the select', () => {

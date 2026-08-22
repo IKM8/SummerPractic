@@ -10,19 +10,19 @@ describe('MoreAbout', () => {
   it('renders the titles of both currencies', () => {
     render(<MoreAbout from={pln} to={jpy} />);
 
-    expect(screen.getByText('Polish Zloty')).toBeInTheDocument();
-    expect(screen.getByText('Japanese Yen')).toBeInTheDocument();
+    expect(screen.getByText('Polish zloty')).toBeInTheDocument();
+    expect(screen.getByText('Japanese yen')).toBeInTheDocument();
   });
 
-  it('shows the description for the Polish Zloty', () => {
+  it('shows the description for the Polish zloty', () => {
     render(<MoreAbout from={pln} to={jpy} />);
 
-    expect(screen.getByText(/The Polish Zloty is the official currency/)).toBeInTheDocument();
+    expect(screen.getByText(/The Polish zloty is the official currency/)).toBeInTheDocument();
   });
 
-  it('shows the description for the Japanese Yen', () => {
+  it('shows the description for the Japanese yen', () => {
     render(<MoreAbout from={pln} to={jpy} />);
 
-    expect(screen.getByText(/The Japanese Yen is the official currency/)).toBeInTheDocument();
+    expect(screen.getByText(/The Japanese yen is the official currency/)).toBeInTheDocument();
   });
 });
