@@ -1,41 +1,23 @@
-.card {
-  box-sizing: border-box;
-
+.container {
   display: flex;
+  flex: 1;
   flex-direction: column;
-
-  inline-size: 400px;
-  padding: 24px;
-
-  background: var(--bg-card);
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgb(0 0 0 / 5%);
+  gap: 20px;
 }
 
-.subtitle {
+.subtitle,
+.datetime {
   margin: 0;
-  color: var(--text-main);
-  font-size: 14px;
-  font-weight: 400;
+  color: var(--text-secondary);
+  font:
+    400 20px/1 Inter,
+    sans-serif;
 }
 
 .rate {
-  margin-block-start: 4px;
+  margin: 0;
   color: var(--text-main);
-  font-size: 32px;
-  font-weight: 600;
-}
-
-.inputs {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-block-start: 20px;
-}
-
-.chart {
-  display: block;
-  inline-size: 100%;
-  block-size: auto;
-  margin-block-start: 20px;
+  font:
+    400 45px/1 Inter,
+    sans-serif;
 }

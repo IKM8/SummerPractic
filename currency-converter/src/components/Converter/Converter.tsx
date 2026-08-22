@@ -1,6 +1,6 @@
 import type { Currency } from '../../types/currency';
 import { CurrencyInput } from '../CurrencyInput/CurrencyInput';
-import heroImage from '../../assets/hero.png';
+import { FilterButtons } from '../FilterButtons/FilterButtons';
 import styles from './Converter.module.scss';
 
 type ConverterProps = {
@@ -9,36 +9,41 @@ type ConverterProps = {
   to: Currency;
   amount: string;
   rate: number;
+  date: string;
+  time: string;
 };
 
-export const Converter = ({ currencies, from, to, amount, rate }: ConverterProps) => {
+export const Converter = ({ currencies, from, to, amount, rate, date, time }: ConverterProps) => {
   const convertedAmount = (Number(amount) * rate).toFixed(2);
 
   return (
-    <div className={styles.card}>
-      <p className={styles.subtitle}>1 {from.title} is</p>
-      <div className={styles.rate}>
-        {rate} {to.title}
-      </div>
+    <div className={styles.container}>
+      <p className={styles.subtitle}>
+        {amount} {from.title} is
+      </p>
+      <p className={styles.rate}>
+        {convertedAmount} {to.title}
+      </p>
+      <p className={styles.datetime}>
+        {date} {time}
+      </p>
 
-      <div className={styles.inputs}>
-        <CurrencyInput
-          amountLabel="Сколько отдаёте"
-          currencyLabel="Валюта, которую отдаёте"
-          amount={amount}
-          currencyCode={from.code}
-          currencies={currencies}
-        />
-        <CurrencyInput
-          amountLabel="Сколько получаете"
-          currencyLabel="Валюта, которую получаете"
-          amount={convertedAmount}
-          currencyCode={to.code}
-          currencies={currencies}
-        />
-      </div>
+      <CurrencyInput
+        amountLabel="Сколько отдаёте"
+        currencyLabel="Валюта, которую отдаёте"
+        amount={amount}
+        currencyCode={from.code}
+        currencies={currencies}
+      />
+      <CurrencyInput
+        amountLabel="Сколько получаете"
+        currencyLabel="Валюта, которую получаете"
+        amount={convertedAmount}
+        currencyCode={to.code}
+        currencies={currencies}
+      />
 
-      <img src={heroImage} alt="Exchange rate chart" className={styles.chart} />
+      <FilterButtons />
     </div>
   );
 };

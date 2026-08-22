@@ -1,34 +1,59 @@
-.section {
-  box-sizing: border-box;
+$arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 14.1728 16'%3E%3Cpath d='M7.08642 0L14.1728 16H0Z' fill='%23767676'/%3E%3C/svg%3E");
 
+.section {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
+}
 
-  inline-size: 100%;
-  max-inline-size: 1000px;
-  margin-block-start: 32px;
-  padding-block-start: 24px;
+.header {
+  display: flex;
+  align-items: center;
+}
 
-  border-block-start: 1px solid var(--border);
+.pair-button {
+  inline-size: 215px;
+  block-size: 50px;
+  font:
+    400 20px/1 Inter,
+    sans-serif;
+}
+
+.arrow {
+  display: inline-block;
+  vertical-align: middle;
+
+  inline-size: 12px;
+  block-size: 12px;
+  margin-inline-start: 5px;
+
+  background: $arrow no-repeat center / contain;
+}
+
+.line {
+  flex: 1;
+  block-size: 1px;
+  background: var(--border);
 }
 
 .item {
   display: flex;
   flex-direction: column;
-  gap: 4px;
 }
 
 .title {
   margin: 0;
+  margin-block-end: 15px;
   color: var(--text-main);
-  font-size: 18px;
-  font-weight: 700;
+  font:
+    700 25px/1 Inter,
+    sans-serif;
 }
 
 .description {
   margin: 0;
   color: var(--text-description);
-  font-size: 14px;
-  line-height: 1.6;
+  font:
+    400 20px/1.1 Inter,
+    sans-serif;
 }

@@ -1,8 +1,29 @@
 .page {
   box-sizing: border-box;
 
-  inline-size: 100%;
-  max-inline-size: 1200px;
+  display: flex;
+  flex-direction: column;
+
+  max-inline-size: 1258px;
+  max-block-size: 786px;
   margin: 0 auto;
-  padding: 32px 16px;
+  padding: 40px;
+
+  background: var(--bg-card);
+  border-radius: 30px;
+}
+
+.top-half {
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.bottom-half {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  inline-size: 100%;
+  padding-block-start: 20px;
 }

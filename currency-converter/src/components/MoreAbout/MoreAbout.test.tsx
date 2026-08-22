@@ -10,8 +10,8 @@ describe('MoreAbout', () => {
   it('renders the titles of both currencies', () => {
     render(<MoreAbout from={pln} to={jpy} />);
 
-    expect(screen.getByText('Polish zloty')).toBeInTheDocument();
-    expect(screen.getByText('Japanese yen')).toBeInTheDocument();
+    expect(screen.getByText(/^Polish zloty/)).toBeInTheDocument();
+    expect(screen.getByText(/^Japanese yen/)).toBeInTheDocument();
   });
 
   it('shows the description for the Polish zloty', () => {
@@ -24,5 +24,12 @@ describe('MoreAbout', () => {
     render(<MoreAbout from={pln} to={jpy} />);
 
     expect(screen.getByText(/The Japanese yen is the official currency/)).toBeInTheDocument();
+  });
+
+  it('shows the code and symbol next to the currency title', () => {
+    render(<MoreAbout from={pln} to={jpy} />);
+
+    expect(screen.getByText('Polish zloty - PLN - zł')).toBeInTheDocument();
+    expect(screen.getByText('Japanese yen - JPY - ¥')).toBeInTheDocument();
   });
 });
