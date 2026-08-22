@@ -33,6 +33,3 @@ describe('CurrencyInput', () => {
     expect(screen.getByRole('combobox')).toBeDisabled()
   })
 })
-
-
-//сверстать без интерактива
