@@ -1,3 +1,22 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.pair-button {
+  inline-size: 215px;
+  block-size: 50px;
+  font:
+    400 20px/1 Inter,
+    sans-serif;
+}
+
 .arrow {
   display: inline-block;
   vertical-align: middle;
