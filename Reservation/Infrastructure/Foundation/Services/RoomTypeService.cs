@@ -35,6 +35,7 @@ public class RoomTypeService(
         }
 
         ValidatePrice( dailyPrice );
+        ValidatePersonCount( minPersonCount, maxPersonCount );
 
         RoomType roomType = new RoomType( propertyId, name, dailyPrice, currency, minPersonCount, maxPersonCount, availableRoomsCount );
         roomTypeRepository.Add( roomType );
@@ -53,6 +54,7 @@ public class RoomTypeService(
     {
         RoomType roomType = GetRoomType( roomTypeId );
         ValidatePrice( dailyPrice );
+        ValidatePersonCount( minPersonCount, maxPersonCount );
         roomType.Update( name, dailyPrice, currency, minPersonCount, maxPersonCount, availableRoomsCount );
         roomTypeRepository.Update( roomType );
     }
@@ -74,6 +76,14 @@ public class RoomTypeService(
         if ( dailyPrice < 0 )
         {
             throw new BusinessRuleViolationException( "Цена за ночь не может быть отрицательной" );
+        }
+    }
+
+    private static void ValidatePersonCount( int minPersonCount, int maxPersonCount )
+    {
+        if ( minPersonCount > maxPersonCount )
+        {
+            throw new BusinessRuleViolationException( "Минимальное количество гостей не может превышать максимальное" );
         }
     }
 }
