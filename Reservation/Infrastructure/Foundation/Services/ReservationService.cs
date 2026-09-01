@@ -38,6 +38,16 @@ public class ReservationService(
             throw new BusinessRuleViolationException( "Дата выезда должна быть позже даты заезда" );
         }
 
+        if ( string.IsNullOrWhiteSpace( guestName ) )
+        {
+            throw new BusinessRuleViolationException( "Имя гостя обязательно для заполнения" );
+        }
+
+        if ( string.IsNullOrWhiteSpace( guestPhoneNumber ) )
+        {
+            throw new BusinessRuleViolationException( "Номер телефона гостя обязателен для заполнения" );
+        }
+
         if ( guestCount < roomType.MinPersonCount || guestCount > roomType.MaxPersonCount )
         {
             throw new BusinessRuleViolationException( $"Количество гостей должно быть от {roomType.MinPersonCount} до {roomType.MaxPersonCount}" );

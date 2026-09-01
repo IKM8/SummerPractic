@@ -19,6 +19,11 @@ public class PropertyService( IPropertyRepository propertyRepository ) : IProper
 
     public Guid CreateProperty( string name, string country, string city, string address, double latitude, double longitude )
     {
+        ValidateStringLength( name, "Название", 100 );
+        ValidateStringLength( country, "Страна", 100 );
+        ValidateStringLength( city, "Город", 100 );
+        ValidateStringLength( address, "Адрес", 200 );
+
         Property property = new Property( name, country, city, address, latitude, longitude );
         propertyRepository.Add( property );
         return property.Id;
@@ -26,6 +31,11 @@ public class PropertyService( IPropertyRepository propertyRepository ) : IProper
 
     public void UpdateProperty( Guid id, string name, string country, string city, string address, double latitude, double longitude )
     {
+        ValidateStringLength( name, "Название", 100 );
+        ValidateStringLength( country, "Страна", 100 );
+        ValidateStringLength( city, "Город", 100 );
+        ValidateStringLength( address, "Адрес", 200 );
+
         Property property = GetProperty( id );
         property.Update( name, country, city, address, latitude, longitude );
         propertyRepository.Update( property );
@@ -41,5 +51,13 @@ public class PropertyService( IPropertyRepository propertyRepository ) : IProper
         }
 
         propertyRepository.Delete( property );
+    }
+
+    private static void ValidateStringLength( string value, string fieldName, int maxLength )
+    {
+        if ( value.Length > maxLength )
+        {
+            throw new BusinessRuleViolationException( $"{fieldName} не может превышать {maxLength} символов" );
+        }
     }
 }
