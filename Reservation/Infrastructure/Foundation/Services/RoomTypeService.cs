@@ -36,6 +36,7 @@ public class RoomTypeService(
 
         var roomType = new RoomType( propertyId, name, dailyPrice, currency, minPersonCount, maxPersonCount, availableRoomsCount );
         roomTypeRepository.Add( roomType );
+
         return roomType.Id;
     }
 
@@ -61,6 +62,7 @@ public class RoomTypeService(
         {
             throw new BusinessRuleViolationException( "Нельзя удалить тип номера, на котором есть бронирования" );
         }
+
         roomTypeRepository.Delete( roomType );
     }
 }
