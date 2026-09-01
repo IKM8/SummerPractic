@@ -13,7 +13,9 @@ public interface IRoomTypeService
         string currency,
         int minPersonCount,
         int maxPersonCount,
-        int availableRoomsCount );
+        int availableRoomsCount,
+        string services,
+        string amenities );
     void UpdateRoomType(
         Guid propertyId,
         Guid roomTypeId,
@@ -22,6 +24,8 @@ public interface IRoomTypeService
         string currency,
         int minPersonCount,
         int maxPersonCount,
-        int availableRoomsCount );
+        int availableRoomsCount,
+        string services,
+        string amenities );
     void DeleteRoomType( Guid propertyId, Guid roomTypeId );
 }

@@ -27,7 +27,9 @@ public class RoomTypeService(
         string currency,
         int minPersonCount,
         int maxPersonCount,
-        int availableRoomsCount )
+        int availableRoomsCount,
+        string services,
+        string amenities )
     {
         if ( propertyRepository.GetById( propertyId ) is null )
         {
@@ -38,7 +40,7 @@ public class RoomTypeService(
         ValidatePersonCount( minPersonCount, maxPersonCount );
         ValidateAvailableRooms( availableRoomsCount );
 
-        RoomType roomType = new RoomType( propertyId, name, dailyPrice, currency, minPersonCount, maxPersonCount, availableRoomsCount );
+        RoomType roomType = new RoomType( propertyId, name, dailyPrice, currency, minPersonCount, maxPersonCount, availableRoomsCount, services, amenities );
         roomTypeRepository.Add( roomType );
 
         return roomType.Id;
@@ -52,7 +54,9 @@ public class RoomTypeService(
         string currency,
         int minPersonCount,
         int maxPersonCount,
-        int availableRoomsCount )
+        int availableRoomsCount,
+        string services,
+        string amenities )
     {
         RoomType roomType = GetRoomType( roomTypeId );
 
@@ -64,7 +68,7 @@ public class RoomTypeService(
         ValidatePrice( dailyPrice );
         ValidatePersonCount( minPersonCount, maxPersonCount );
         ValidateAvailableRooms( availableRoomsCount );
-        roomType.Update( name, dailyPrice, currency, minPersonCount, maxPersonCount, availableRoomsCount );
+        roomType.Update( name, dailyPrice, currency, minPersonCount, maxPersonCount, availableRoomsCount, services, amenities );
         roomTypeRepository.Update( roomType );
     }
 

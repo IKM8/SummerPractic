@@ -8,4 +8,6 @@ public class CreateRoomTypeRequest
     public int MinPersonCount { get; set; }
     public int MaxPersonCount { get; set; }
     public int AvailableRoomsCount { get; set; }
+    public string Services { get; set; } = string.Empty;
+    public string Amenities { get; set; } = string.Empty;
 }

@@ -10,6 +10,8 @@ public class RoomType
     public int MinPersonCount { get; private set; }
     public int MaxPersonCount { get; private set; }
     public int AvailableRoomsCount { get; private set; }
+    public string Services { get; private set; }
+    public string Amenities { get; private set; }
 
     public Property? Property { get; private set; }
 
@@ -17,6 +19,8 @@ public class RoomType
     {
         Name = string.Empty;
         Currency = string.Empty;
+        Services = string.Empty;
+        Amenities = string.Empty;
     }
 
     public RoomType(
@@ -26,7 +30,9 @@ public class RoomType
         string currency,
         int minPersonCount,
         int maxPersonCount,
-        int availableRoomsCount )
+        int availableRoomsCount,
+        string services,
+        string amenities )
     {
         Id = Guid.NewGuid();
         PropertyId = propertyId;
@@ -36,6 +42,8 @@ public class RoomType
         MinPersonCount = minPersonCount;
         MaxPersonCount = maxPersonCount;
         AvailableRoomsCount = availableRoomsCount;
+        Services = services;
+        Amenities = amenities;
     }
 
     public void Update(
@@ -44,7 +52,9 @@ public class RoomType
         string currency,
         int minPersonCount,
         int maxPersonCount,
-        int availableRoomsCount )
+        int availableRoomsCount,
+        string services,
+        string amenities )
     {
         Name = name;
         DailyPrice = dailyPrice;
@@ -52,5 +62,7 @@ public class RoomType
         MinPersonCount = minPersonCount;
         MaxPersonCount = maxPersonCount;
         AvailableRoomsCount = availableRoomsCount;
+        Services = services;
+        Amenities = amenities;
     }
 }

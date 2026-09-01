@@ -1,3 +1,4 @@
+using Domain.Entities;
 using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.DTOs;

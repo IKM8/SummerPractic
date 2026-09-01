@@ -1,3 +1,4 @@
+using Domain.Entities;
 using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.DTOs;
@@ -76,7 +77,9 @@ public class PropertiesController( IPropertyService propertyService, IRoomTypeSe
             request.Currency,
             request.MinPersonCount,
             request.MaxPersonCount,
-            request.AvailableRoomsCount );
+            request.AvailableRoomsCount,
+            request.Services,
+            request.Amenities );
 
         RoomType roomType = roomTypeService.GetRoomType( id );
         return CreatedAtAction( nameof( GetRoomTypes ), new { propertyId }, RoomTypeDto.From( roomType ) );
@@ -93,7 +96,9 @@ public class PropertiesController( IPropertyService propertyService, IRoomTypeSe
             request.Currency,
             request.MinPersonCount,
             request.MaxPersonCount,
-            request.AvailableRoomsCount );
+            request.AvailableRoomsCount,
+            request.Services,
+            request.Amenities );
 
         return NoContent();
     }
