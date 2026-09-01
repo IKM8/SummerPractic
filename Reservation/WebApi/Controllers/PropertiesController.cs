@@ -101,7 +101,7 @@ public class PropertiesController( IPropertyService propertyService, IRoomTypeSe
     [HttpDelete( "{propertyId}/roomtypes/{roomTypeId}" )]
     public IActionResult DeleteRoomType( Guid propertyId, Guid roomTypeId )
     {
-        roomTypeService.DeleteRoomType( roomTypeId );
+        roomTypeService.DeleteRoomType( propertyId, roomTypeId );
         return NoContent();
     }
 }

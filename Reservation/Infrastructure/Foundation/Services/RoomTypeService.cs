@@ -68,9 +68,14 @@ public class RoomTypeService(
         roomTypeRepository.Update( roomType );
     }
 
-    public void DeleteRoomType( Guid roomTypeId )
+    public void DeleteRoomType( Guid propertyId, Guid roomTypeId )
     {
         RoomType roomType = GetRoomType( roomTypeId );
+
+        if ( roomType.PropertyId != propertyId )
+        {
+            throw new BusinessRuleViolationException( "Тип номера не принадлежит указанному объекту размещения" );
+        }
 
         if ( reservationRepository.GetOverlapping( roomTypeId, DateOnly.MinValue, DateOnly.MaxValue ).Count > 0 )
         {

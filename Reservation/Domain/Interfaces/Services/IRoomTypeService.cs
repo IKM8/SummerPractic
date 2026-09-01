@@ -23,5 +23,5 @@ public interface IRoomTypeService
         int minPersonCount,
         int maxPersonCount,
         int availableRoomsCount );
-    void DeleteRoomType( Guid roomTypeId );
+    void DeleteRoomType( Guid propertyId, Guid roomTypeId );
 }
