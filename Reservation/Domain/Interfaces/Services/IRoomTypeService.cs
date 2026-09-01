@@ -15,6 +15,7 @@ public interface IRoomTypeService
         int maxPersonCount,
         int availableRoomsCount );
     void UpdateRoomType(
+        Guid propertyId,
         Guid roomTypeId,
         string name,
         decimal dailyPrice,

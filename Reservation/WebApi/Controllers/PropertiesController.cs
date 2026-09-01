@@ -86,6 +86,7 @@ public class PropertiesController( IPropertyService propertyService, IRoomTypeSe
     public IActionResult UpdateRoomType( Guid propertyId, Guid roomTypeId, CreateRoomTypeRequest request )
     {
         roomTypeService.UpdateRoomType(
+            propertyId,
             roomTypeId,
             request.Name,
             request.DailyPrice,

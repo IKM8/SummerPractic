@@ -45,6 +45,7 @@ public class RoomTypeService(
     }
 
     public void UpdateRoomType(
+        Guid propertyId,
         Guid roomTypeId,
         string name,
         decimal dailyPrice,
@@ -54,6 +55,12 @@ public class RoomTypeService(
         int availableRoomsCount )
     {
         RoomType roomType = GetRoomType( roomTypeId );
+
+        if ( roomType.PropertyId != propertyId )
+        {
+            throw new BusinessRuleViolationException( "Тип номера не принадлежит указанному объекту размещения" );
+        }
+
         ValidatePrice( dailyPrice );
         ValidatePersonCount( minPersonCount, maxPersonCount );
         ValidateAvailableRooms( availableRoomsCount );
