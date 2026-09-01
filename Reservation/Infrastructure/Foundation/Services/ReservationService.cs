@@ -101,6 +101,22 @@ public class ReservationService(
 
         List<AvailableRoomType> results = new List<AvailableRoomType>();
         IReadOnlyList<Property> properties = propertyRepository.GetAll();
+        IReadOnlyList<RoomType> allRoomTypes = roomTypeRepository.GetAll();
+
+        Dictionary<Guid, List<RoomType>> roomTypesByProperty = new Dictionary<Guid, List<RoomType>>();
+
+        foreach ( RoomType roomType in allRoomTypes )
+        {
+            if ( !roomTypesByProperty.TryGetValue( roomType.PropertyId, out List<RoomType>? list ) )
+            {
+                list = new List<RoomType>();
+                roomTypesByProperty[roomType.PropertyId] = list;
+            }
+
+            list.Add( roomType );
+        }
+
+        int nights = arrivalDate.DayNumber - departureDate.DayNumber;
 
         foreach ( Property property in properties )
         {
@@ -109,7 +125,12 @@ public class ReservationService(
                 continue;
             }
 
-            foreach ( RoomType roomType in roomTypeRepository.GetByProperty( property.Id ) )
+            if ( !roomTypesByProperty.TryGetValue( property.Id, out List<RoomType>? roomTypes ) )
+            {
+                continue;
+            }
+
+            foreach ( RoomType roomType in roomTypes )
             {
                 if ( roomType.PropertyId != property.Id )
                 {
@@ -133,8 +154,6 @@ public class ReservationService(
                 {
                     continue;
                 }
-
-                int nights = departureDate.DayNumber - arrivalDate.DayNumber;
 
                 results.Add( new AvailableRoomType
                 {
