@@ -36,7 +36,9 @@ public class PropertyService( IPropertyRepository propertyRepository ) : IProper
         var property = GetProperty( id );
 
         if ( property.RoomTypes.Count > 0 )
+        {
             throw new BusinessRuleViolationException( "Нельзя удалить объект, у которого есть типы номеров" );
+        }
 
         propertyRepository.Delete( property );
     }

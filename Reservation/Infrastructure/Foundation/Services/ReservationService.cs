@@ -34,14 +34,20 @@ public class ReservationService(
             ?? throw new EntityNotFoundException( "Тип номера не найден" );
 
         if ( departureDate <= arrivalDate )
+        {
             throw new BusinessRuleViolationException( "Дата выезда должна быть позже даты заезда" );
+        }
 
         if ( guestCount < roomType.MinPersonCount || guestCount > roomType.MaxPersonCount )
+        {
             throw new BusinessRuleViolationException( $"Количество гостей должно быть от {roomType.MinPersonCount} до {roomType.MaxPersonCount}" );
+        }
 
         int bookedRooms = CountBookedRooms( roomTypeId, arrivalDate, departureDate );
         if ( bookedRooms >= roomType.AvailableRoomsCount )
+        {
             throw new BusinessRuleViolationException( "Нет свободных номеров на выбранный период" );
+        }
 
         int nights = departureDate.DayNumber - arrivalDate.DayNumber;
         decimal total = roomType.DailyPrice * nights;
@@ -68,7 +74,9 @@ public class ReservationService(
         var reservation = GetReservation( id );
 
         if ( reservation.IsCancelled )
+        {
             throw new BusinessRuleViolationException( "Бронирование уже отменено" );
+        }
 
         reservation.Cancel();
         reservationRepository.Update( reservation );
@@ -77,7 +85,9 @@ public class ReservationService(
     public IReadOnlyList<AvailableRoomType> SearchAvailable( string? city, DateOnly arrivalDate, DateOnly departureDate, int guests, decimal? maxPrice )
     {
         if ( departureDate <= arrivalDate )
+        {
             throw new BusinessRuleViolationException( "Дата выезда должна быть позже даты заезда" );
+        }
 
         var results = new List<AvailableRoomType>();
         var properties = propertyRepository.GetAll();
@@ -85,21 +95,29 @@ public class ReservationService(
         foreach ( var property in properties )
         {
             if ( !string.IsNullOrWhiteSpace( city ) && !property.City.Equals( city, StringComparison.OrdinalIgnoreCase ) )
+            {
                 continue;
+            }
 
             foreach ( var roomType in roomTypeRepository.GetByProperty( property.Id ) )
             {
                 if ( guests < roomType.MinPersonCount || guests > roomType.MaxPersonCount )
+                {
                     continue;
+                }
 
                 if ( maxPrice.HasValue && roomType.DailyPrice > maxPrice.Value )
+                {
                     continue;
+                }
 
                 int bookedRooms = CountBookedRooms( roomType.Id, arrivalDate, departureDate );
                 int availableRooms = roomType.AvailableRoomsCount - bookedRooms;
 
                 if ( availableRooms <= 0 )
+                {
                     continue;
+                }
 
                 int nights = departureDate.DayNumber - arrivalDate.DayNumber;
 

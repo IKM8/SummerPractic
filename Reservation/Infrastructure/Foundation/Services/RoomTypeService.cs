@@ -30,7 +30,9 @@ public class RoomTypeService(
         int availableRoomsCount )
     {
         if ( propertyRepository.GetById( propertyId ) is null )
+        {
             throw new EntityNotFoundException( "Объект размещения не найден" );
+        }
 
         var roomType = new RoomType( propertyId, name, dailyPrice, currency, minPersonCount, maxPersonCount, availableRoomsCount );
         roomTypeRepository.Add( roomType );
@@ -56,8 +58,9 @@ public class RoomTypeService(
         var roomType = GetRoomType( roomTypeId );
 
         if ( reservationRepository.GetOverlapping( roomTypeId, DateOnly.MinValue, DateOnly.MaxValue ).Count > 0 )
+        {
             throw new BusinessRuleViolationException( "Нельзя удалить тип номера, на котором есть бронирования" );
-
+        }
         roomTypeRepository.Delete( roomType );
     }
 }

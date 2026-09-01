@@ -23,17 +23,22 @@ public class EFReservationRepository( ReservationDbContext db ) : IReservationRe
             .AsNoTracking();
 
         if ( propertyId.HasValue )
+        {
             query = query.Where( r => r.PropertyId == propertyId.Value );
+        }
 
         if ( fromDate.HasValue )
+        {
             query = query.Where( r => r.ArrivalDate >= fromDate.Value );
-
+        }
         if ( toDate.HasValue )
+        {
             query = query.Where( r => r.DepartureDate <= toDate.Value );
-
+        }
         if ( !string.IsNullOrWhiteSpace( guestName ) )
+        {
             query = query.Where( r => r.GuestName.ToLower().Contains( guestName.ToLower() ) );
-
+        }
         return query.ToList();
     }
 
