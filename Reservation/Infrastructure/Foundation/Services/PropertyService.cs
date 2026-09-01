@@ -19,21 +19,21 @@ public class PropertyService( IPropertyRepository propertyRepository ) : IProper
 
     public Guid CreateProperty( string name, string country, string city, string address, double latitude, double longitude )
     {
-        var property = new Property( name, country, city, address, latitude, longitude );
+        Property property = new Property( name, country, city, address, latitude, longitude );
         propertyRepository.Add( property );
         return property.Id;
     }
 
     public void UpdateProperty( Guid id, string name, string country, string city, string address, double latitude, double longitude )
     {
-        var property = GetProperty( id );
+        Property property = GetProperty( id );
         property.Update( name, country, city, address, latitude, longitude );
         propertyRepository.Update( property );
     }
 
     public void DeleteProperty( Guid id )
     {
-        var property = GetProperty( id );
+        Property property = GetProperty( id );
 
         if ( property.RoomTypes.Count > 0 )
         {

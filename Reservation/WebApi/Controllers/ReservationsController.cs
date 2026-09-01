@@ -15,14 +15,14 @@ public class ReservationsController( IReservationService reservationService ) : 
         [FromQuery] DateOnly? toDate,
         [FromQuery] string? guestName )
     {
-        var reservations = reservationService.GetReservations( propertyId, fromDate, toDate, guestName );
+        IReadOnlyList<Reservation> reservations = reservationService.GetReservations( propertyId, fromDate, toDate, guestName );
         return Ok( reservations.Select( ReservationDto.From ).ToList() );
     }
 
     [HttpGet( "{id}" )]
     public ActionResult<ReservationDto> GetById( Guid id )
     {
-        var reservation = reservationService.GetReservation( id );
+        Reservation reservation = reservationService.GetReservation( id );
         return Ok( ReservationDto.From( reservation ) );
     }
 
@@ -39,7 +39,7 @@ public class ReservationsController( IReservationService reservationService ) : 
             request.GuestPhoneNumber,
             request.GuestCount );
 
-        var reservation = reservationService.GetReservation( id );
+        Reservation reservation = reservationService.GetReservation( id );
         return CreatedAtAction( nameof( GetById ), new { id }, ReservationDto.From( reservation ) );
     }
 
@@ -58,7 +58,7 @@ public class ReservationsController( IReservationService reservationService ) : 
         [FromQuery] int guests,
         [FromQuery] decimal? maxPrice )
     {
-        var results = reservationService.SearchAvailable( city, arrivalDate, departureDate, guests, maxPrice );
+        IReadOnlyList<AvailableRoomType> results = reservationService.SearchAvailable( city, arrivalDate, departureDate, guests, maxPrice );
         return Ok( results.Select( SearchResultItemDto.From ).ToList() );
     }
 }

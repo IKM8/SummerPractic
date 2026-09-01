@@ -11,14 +11,14 @@ public class PropertiesController( IPropertyService propertyService, IRoomTypeSe
     [HttpGet]
     public ActionResult<List<PropertyDto>> GetAll()
     {
-        var properties = propertyService.GetAllProperties();
+        IReadOnlyList<Property> properties = propertyService.GetAllProperties();
         return Ok( properties.Select( PropertyDto.From ).ToList() );
     }
 
     [HttpGet( "{id}" )]
     public ActionResult<PropertyDto> GetById( Guid id )
     {
-        var property = propertyService.GetProperty( id );
+        Property property = propertyService.GetProperty( id );
         return Ok( PropertyDto.From( property ) );
     }
 
@@ -33,7 +33,7 @@ public class PropertiesController( IPropertyService propertyService, IRoomTypeSe
             request.Latitude,
             request.Longitude );
 
-        var property = propertyService.GetProperty( id );
+        Property property = propertyService.GetProperty( id );
         return CreatedAtAction( nameof( GetById ), new { id }, PropertyDto.From( property ) );
     }
 
@@ -62,7 +62,7 @@ public class PropertiesController( IPropertyService propertyService, IRoomTypeSe
     [HttpGet( "{propertyId}/roomtypes" )]
     public ActionResult<List<RoomTypeDto>> GetRoomTypes( Guid propertyId )
     {
-        var roomTypes = roomTypeService.GetRoomTypes( propertyId );
+        IReadOnlyList<RoomType> roomTypes = roomTypeService.GetRoomTypes( propertyId );
         return Ok( roomTypes.Select( RoomTypeDto.From ).ToList() );
     }
 
@@ -78,7 +78,7 @@ public class PropertiesController( IPropertyService propertyService, IRoomTypeSe
             request.MaxPersonCount,
             request.AvailableRoomsCount );
 
-        var roomType = roomTypeService.GetRoomType( id );
+        RoomType roomType = roomTypeService.GetRoomType( id );
         return CreatedAtAction( nameof( GetRoomTypes ), new { propertyId }, RoomTypeDto.From( roomType ) );
     }
 

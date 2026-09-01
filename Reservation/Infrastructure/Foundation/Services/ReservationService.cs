@@ -30,7 +30,7 @@ public class ReservationService(
         string guestPhoneNumber,
         int guestCount )
     {
-        var roomType = roomTypeRepository.GetById( roomTypeId )
+        RoomType roomType = roomTypeRepository.GetById( roomTypeId )
             ?? throw new EntityNotFoundException( "Тип номера не найден" );
 
         if ( departureDate <= arrivalDate )
@@ -52,7 +52,7 @@ public class ReservationService(
         int nights = departureDate.DayNumber - arrivalDate.DayNumber;
         decimal total = roomType.DailyPrice * nights;
 
-        var reservation = new Reservation(
+        Reservation reservation = new Reservation(
             roomType.PropertyId,
             roomTypeId,
             arrivalDate,
@@ -71,7 +71,7 @@ public class ReservationService(
 
     public void CancelReservation( Guid id )
     {
-        var reservation = GetReservation( id );
+        Reservation reservation = GetReservation( id );
 
         if ( reservation.IsCancelled )
         {
@@ -89,17 +89,17 @@ public class ReservationService(
             throw new BusinessRuleViolationException( "Дата выезда должна быть позже даты заезда" );
         }
 
-        var results = new List<AvailableRoomType>();
-        var properties = propertyRepository.GetAll();
+        List<AvailableRoomType> results = new List<AvailableRoomType>();
+        IReadOnlyList<Property> properties = propertyRepository.GetAll();
 
-        foreach ( var property in properties )
+        foreach ( Property property in properties )
         {
             if ( !string.IsNullOrWhiteSpace( city ) && !property.City.Equals( city, StringComparison.OrdinalIgnoreCase ) )
             {
                 continue;
             }
 
-            foreach ( var roomType in roomTypeRepository.GetByProperty( property.Id ) )
+            foreach ( RoomType roomType in roomTypeRepository.GetByProperty( property.Id ) )
             {
                 if ( guests < roomType.MinPersonCount || guests > roomType.MaxPersonCount )
                 {
