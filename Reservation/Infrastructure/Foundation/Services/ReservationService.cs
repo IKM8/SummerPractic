@@ -111,6 +111,11 @@ public class ReservationService(
 
             foreach ( RoomType roomType in roomTypeRepository.GetByProperty( property.Id ) )
             {
+                if ( roomType.PropertyId != property.Id )
+                {
+                    continue;
+                }
+
                 if ( guests < roomType.MinPersonCount || guests > roomType.MaxPersonCount )
                 {
                     continue;
