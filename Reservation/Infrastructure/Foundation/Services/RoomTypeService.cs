@@ -34,6 +34,8 @@ public class RoomTypeService(
             throw new EntityNotFoundException( "Объект размещения не найден" );
         }
 
+        ValidatePrice( dailyPrice );
+
         RoomType roomType = new RoomType( propertyId, name, dailyPrice, currency, minPersonCount, maxPersonCount, availableRoomsCount );
         roomTypeRepository.Add( roomType );
 
@@ -50,6 +52,7 @@ public class RoomTypeService(
         int availableRoomsCount )
     {
         RoomType roomType = GetRoomType( roomTypeId );
+        ValidatePrice( dailyPrice );
         roomType.Update( name, dailyPrice, currency, minPersonCount, maxPersonCount, availableRoomsCount );
         roomTypeRepository.Update( roomType );
     }
@@ -64,5 +67,13 @@ public class RoomTypeService(
         }
 
         roomTypeRepository.Delete( roomType );
+    }
+
+    private static void ValidatePrice( decimal dailyPrice )
+    {
+        if ( dailyPrice < 0 )
+        {
+            throw new BusinessRuleViolationException( "Цена за ночь не может быть отрицательной" );
+        }
     }
 }
