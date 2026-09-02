@@ -126,6 +126,11 @@ namespace Infrastructure.Migrations
                     b.Property<int>("AvailableRoomsCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Amenities")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<string>("Currency")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -147,6 +152,13 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<Guid>("PropertyId")
+
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Services")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
