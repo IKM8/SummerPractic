@@ -36,9 +36,9 @@ public class RoomTypeService(
             throw new EntityNotFoundException( "Объект размещения не найден" );
         }
 
-        ValidatePrice( dailyPrice );
-        ValidatePersonCount( minPersonCount, maxPersonCount );
-        ValidateAvailableRooms( availableRoomsCount );
+        Validators.ValidatePrice( dailyPrice );
+        Validators.ValidatePersonCount( minPersonCount, maxPersonCount );
+        Validators.ValidateAvailableRooms( availableRoomsCount );
 
         RoomType roomType = new RoomType( propertyId, name, dailyPrice, currency, minPersonCount, maxPersonCount, availableRoomsCount, services, amenities );
         roomTypeRepository.Add( roomType );
@@ -65,9 +65,9 @@ public class RoomTypeService(
             throw new BusinessRuleViolationException( "Тип номера не принадлежит указанному объекту размещения" );
         }
 
-        ValidatePrice( dailyPrice );
-        ValidatePersonCount( minPersonCount, maxPersonCount );
-        ValidateAvailableRooms( availableRoomsCount );
+        Validators.ValidatePrice( dailyPrice );
+        Validators.ValidatePersonCount( minPersonCount, maxPersonCount );
+        Validators.ValidateAvailableRooms( availableRoomsCount );
         roomType.Update( name, dailyPrice, currency, minPersonCount, maxPersonCount, availableRoomsCount, services, amenities );
         roomTypeRepository.Update( roomType );
     }
@@ -87,39 +87,5 @@ public class RoomTypeService(
         }
 
         roomTypeRepository.Delete( roomType );
-    }
-
-    private static void ValidatePrice( decimal dailyPrice )
-    {
-        if ( dailyPrice < 0 )
-        {
-            throw new BusinessRuleViolationException( "Цена за ночь не может быть отрицательной" );
-        }
-    }
-
-    private static void ValidatePersonCount( int minPersonCount, int maxPersonCount )
-    {
-        if ( minPersonCount < 0 )
-        {
-            throw new BusinessRuleViolationException( "Минимальное количество гостей не может быть отрицательным" );
-        }
-
-        if ( maxPersonCount < 0 )
-        {
-            throw new BusinessRuleViolationException( "Максимальное количество гостей не может быть отрицательным" );
-        }
-
-        if ( minPersonCount > maxPersonCount )
-        {
-            throw new BusinessRuleViolationException( "Минимальное количество гостей не может превышать максимальное" );
-        }
-    }
-
-    private static void ValidateAvailableRooms( int availableRoomsCount )
-    {
-        if ( availableRoomsCount < 0 )
-        {
-            throw new BusinessRuleViolationException( "Количество доступных номеров не может быть отрицательным" );
-        }
     }
 }
