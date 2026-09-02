@@ -99,6 +99,16 @@ public class RoomTypeService(
 
     private static void ValidatePersonCount( int minPersonCount, int maxPersonCount )
     {
+        if ( minPersonCount < 0 )
+        {
+            throw new BusinessRuleViolationException( "Минимальное количество гостей не может быть отрицательным" );
+        }
+
+        if ( maxPersonCount < 0 )
+        {
+            throw new BusinessRuleViolationException( "Максимальное количество гостей не может быть отрицательным" );
+        }
+
         if ( minPersonCount > maxPersonCount )
         {
             throw new BusinessRuleViolationException( "Минимальное количество гостей не может превышать максимальное" );
