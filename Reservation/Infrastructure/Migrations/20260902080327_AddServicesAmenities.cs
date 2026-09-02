@@ -10,13 +10,33 @@ namespace Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<string>(
+                name: "Services",
+                table: "RoomTypes",
+                type: "nvarchar(500)",
+                maxLength: 500,
+                nullable: false,
+                defaultValue: "");
 
+            migrationBuilder.AddColumn<string>(
+                name: "Amenities",
+                table: "RoomTypes",
+                type: "nvarchar(500)",
+                maxLength: 500,
+                nullable: false,
+                defaultValue: "");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "Services",
+                table: "RoomTypes");
 
+            migrationBuilder.DropColumn(
+                name: "Amenities",
+                table: "RoomTypes");
         }
     }
 }
