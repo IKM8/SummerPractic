@@ -116,7 +116,7 @@ public class ReservationService(
             list.Add( roomType );
         }
 
-        int nights = arrivalDate.DayNumber - departureDate.DayNumber;
+        int nights = departureDate.DayNumber - arrivalDate.DayNumber;
 
         foreach ( Property property in properties )
         {
