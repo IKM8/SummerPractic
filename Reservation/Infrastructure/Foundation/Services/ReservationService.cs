@@ -43,9 +43,19 @@ public class ReservationService(
             throw new BusinessRuleViolationException( "Имя гостя обязательно для заполнения" );
         }
 
+        if ( guestName.Length > 100 )
+        {
+            throw new BusinessRuleViolationException( "Имя гостя не может превышать 100 символов" );
+        }
+
         if ( string.IsNullOrWhiteSpace( guestPhoneNumber ) )
         {
             throw new BusinessRuleViolationException( "Номер телефона гостя обязателен для заполнения" );
+        }
+
+        if ( guestPhoneNumber.Length > 50 )
+        {
+            throw new BusinessRuleViolationException( "Номер телефона не может превышать 50 символов" );
         }
 
         if ( guestCount < roomType.MinPersonCount || guestCount > roomType.MaxPersonCount )
