@@ -14,6 +14,7 @@ public class RoomTypeDto
     public int AvailableRoomsCount { get; set; }
     public string Services { get; set; } = string.Empty;
     public string Amenities { get; set; } = string.Empty;
+    public bool IsActive { get; set; }
 
     public static RoomTypeDto From( RoomType roomType )
     {
@@ -28,7 +29,8 @@ public class RoomTypeDto
             MaxPersonCount = roomType.MaxPersonCount,
             AvailableRoomsCount = roomType.AvailableRoomsCount,
             Services = roomType.Services,
-            Amenities = roomType.Amenities
+            Amenities = roomType.Amenities,
+            IsActive = roomType.IsActive
         };
     }
 }

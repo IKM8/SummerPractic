@@ -81,11 +81,6 @@ public class RoomTypeService(
             throw new BusinessRuleViolationException( "Тип номера не принадлежит указанному объекту размещения" );
         }
 
-        if ( reservationRepository.GetOverlapping( roomTypeId, DateOnly.MinValue, DateOnly.MaxValue ).Count > 0 )
-        {
-            throw new BusinessRuleViolationException( "Нельзя удалить тип номера, на котором есть бронирования" );
-        }
-
         roomTypeRepository.Delete( roomType );
     }
 }
