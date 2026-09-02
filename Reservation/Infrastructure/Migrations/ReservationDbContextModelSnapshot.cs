@@ -131,6 +131,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("AvailableRoomsCount")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Currency")
                         .IsRequired()
                         .HasMaxLength(10)

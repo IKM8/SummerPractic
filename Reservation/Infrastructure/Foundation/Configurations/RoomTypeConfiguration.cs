@@ -15,6 +15,7 @@ public class RoomTypeConfiguration : IEntityTypeConfiguration<RoomType>
         builder.Property( r => r.Currency ).HasMaxLength( 10 ).IsRequired();
         builder.Property( r => r.Services ).HasMaxLength( 500 ).IsRequired();
         builder.Property( r => r.Amenities ).HasMaxLength( 500 ).IsRequired();
+        builder.Property( r => r.IsActive ).IsRequired();
         builder.Property( r => r.DailyPrice ).HasPrecision( 18, 2 ).IsRequired();
     }
 }

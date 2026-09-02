@@ -8,12 +8,12 @@ public class EFRoomTypeRepository( ReservationDbContext db ) : IRoomTypeReposito
 {
     public IReadOnlyList<RoomType> GetAll()
     {
-        return db.RoomTypes.AsNoTracking().ToList();
+        return db.RoomTypes.AsNoTracking().Where( r => r.IsActive ).ToList();
     }
 
     public IReadOnlyList<RoomType> GetByProperty( Guid propertyId )
     {
-        return db.RoomTypes.AsNoTracking().Where( r => r.PropertyId == propertyId ).ToList();
+        return db.RoomTypes.AsNoTracking().Where( r => r.PropertyId == propertyId && r.IsActive ).ToList();
     }
 
     public RoomType? GetById( Guid id )
@@ -35,7 +35,8 @@ public class EFRoomTypeRepository( ReservationDbContext db ) : IRoomTypeReposito
 
     public void Delete( RoomType roomType )
     {
-        db.RoomTypes.Remove( roomType );
+        roomType.Deactivate();
+        db.RoomTypes.Update( roomType );
         db.SaveChanges();
     }
 }

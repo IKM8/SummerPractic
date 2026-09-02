@@ -25,6 +25,13 @@ namespace Infrastructure.Migrations
                 maxLength: 500,
                 nullable: false,
                 defaultValue: "");
+
+            migrationBuilder.AddColumn<bool>(
+                name: "IsActive",
+                table: "RoomTypes",
+                type: "bit",
+                nullable: false,
+                defaultValue: true);
         }
 
         /// <inheritdoc />
@@ -36,6 +43,10 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropColumn(
                 name: "Amenities",
+                table: "RoomTypes");
+
+            migrationBuilder.DropColumn(
+                name: "IsActive",
                 table: "RoomTypes");
         }
     }

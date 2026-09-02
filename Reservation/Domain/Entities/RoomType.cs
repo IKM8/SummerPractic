@@ -12,6 +12,7 @@ public class RoomType
     public int AvailableRoomsCount { get; private set; }
     public string Services { get; private set; }
     public string Amenities { get; private set; }
+    public bool IsActive { get; private set; }
 
     public Property? Property { get; private set; }
 
@@ -21,6 +22,7 @@ public class RoomType
         Currency = string.Empty;
         Services = string.Empty;
         Amenities = string.Empty;
+        IsActive = true;
     }
 
     public RoomType(
@@ -44,6 +46,12 @@ public class RoomType
         AvailableRoomsCount = availableRoomsCount;
         Services = services;
         Amenities = amenities;
+        IsActive = true;
+    }
+
+    public void Deactivate()
+    {
+        IsActive = false;
     }
 
     public void Update(
