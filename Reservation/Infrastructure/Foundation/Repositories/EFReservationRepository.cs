@@ -56,6 +56,16 @@ public class EFReservationRepository( ReservationDbContext db ) : IReservationRe
             .ToList();
     }
 
+    public IReadOnlyList<Reservation> GetOverlappingForAll( DateOnly arrivalDate, DateOnly departureDate )
+    {
+        return db.Reservations
+            .AsNoTracking()
+            .Where( r => !r.IsCancelled
+                && r.ArrivalDate < departureDate
+                && r.DepartureDate > arrivalDate )
+            .ToList();
+    }
+
     public Reservation? GetById( Guid id )
     {
         return db.Reservations

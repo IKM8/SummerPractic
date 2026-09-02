@@ -128,6 +128,22 @@ public class ReservationService(
 
         int nights = departureDate.DayNumber - arrivalDate.DayNumber;
 
+        IReadOnlyList<Reservation> overlapping = reservationRepository.GetOverlappingForAll( arrivalDate, departureDate );
+
+        Dictionary<Guid, int> bookedCountByRoomType = new Dictionary<Guid, int>();
+
+        foreach ( Reservation reservation in overlapping )
+        {
+            if ( bookedCountByRoomType.TryGetValue( reservation.RoomTypeId, out int count ) )
+            {
+                bookedCountByRoomType[reservation.RoomTypeId] = count + 1;
+            }
+            else
+            {
+                bookedCountByRoomType[reservation.RoomTypeId] = 1;
+            }
+        }
+
         foreach ( Property property in properties )
         {
             if ( !string.IsNullOrWhiteSpace( city ) && !property.City.Equals( city, StringComparison.OrdinalIgnoreCase ) )
@@ -157,7 +173,7 @@ public class ReservationService(
                     continue;
                 }
 
-                int bookedRooms = CountBookedRooms( roomType.Id, arrivalDate, departureDate );
+                bookedCountByRoomType.TryGetValue( roomType.Id, out int bookedRooms );
                 int availableRooms = roomType.AvailableRoomsCount - bookedRooms;
 
                 if ( availableRooms <= 0 )
