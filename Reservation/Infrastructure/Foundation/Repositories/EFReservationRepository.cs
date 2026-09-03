@@ -45,6 +45,50 @@ public class EFReservationRepository( ReservationDbContext db ) : IReservationRe
         return query.ToList();
     }
 
+    public IReadOnlyList<Reservation> GetFilteredPage( Guid? propertyId, DateOnly? fromDate, DateOnly? toDate, string? guestName, int skip, int take )
+    {
+        IQueryable<Reservation> query = BuildFilteredQuery( propertyId, fromDate, toDate, guestName );
+
+        return query.Skip( skip ).Take( take ).ToList();
+    }
+
+    public int GetFilteredCount( Guid? propertyId, DateOnly? fromDate, DateOnly? toDate, string? guestName )
+    {
+        IQueryable<Reservation> query = BuildFilteredQuery( propertyId, fromDate, toDate, guestName );
+
+        return query.Count();
+    }
+
+    private IQueryable<Reservation> BuildFilteredQuery( Guid? propertyId, DateOnly? fromDate, DateOnly? toDate, string? guestName )
+    {
+        IQueryable<Reservation> query = db.Reservations
+            .Include( r => r.Property )
+            .Include( r => r.RoomType )
+            .AsNoTracking();
+
+        if ( propertyId.HasValue )
+        {
+            query = query.Where( r => r.PropertyId == propertyId.Value );
+        }
+
+        if ( fromDate.HasValue )
+        {
+            query = query.Where( r => r.ArrivalDate >= fromDate.Value );
+        }
+
+        if ( toDate.HasValue )
+        {
+            query = query.Where( r => r.DepartureDate <= toDate.Value );
+        }
+
+        if ( !string.IsNullOrWhiteSpace( guestName ) )
+        {
+            query = query.Where( r => r.GuestName.ToLower().Contains( guestName.ToLower() ) );
+        }
+
+        return query;
+    }
+
     public IReadOnlyList<Reservation> GetOverlapping( Guid roomTypeId, DateOnly arrivalDate, DateOnly departureDate )
     {
         return db.Reservations

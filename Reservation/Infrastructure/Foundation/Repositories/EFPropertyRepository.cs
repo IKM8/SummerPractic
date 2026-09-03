@@ -11,6 +11,16 @@ public class EFPropertyRepository( ReservationDbContext db ) : IPropertyReposito
         return db.Properties.AsNoTracking().ToList();
     }
 
+    public IReadOnlyList<Property> GetPage( int skip, int take )
+    {
+        return db.Properties.AsNoTracking().Skip( skip ).Take( take ).ToList();
+    }
+
+    public int GetCount()
+    {
+        return db.Properties.AsNoTracking().Count();
+    }
+
     public Property? GetById( Guid id )
     {
         return db.Properties.Include( p => p.RoomTypes ).FirstOrDefault( p => p.Id == id );

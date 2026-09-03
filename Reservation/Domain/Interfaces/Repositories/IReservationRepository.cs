@@ -6,6 +6,8 @@ public interface IReservationRepository
 {
     IReadOnlyList<Reservation> GetAll();
     IReadOnlyList<Reservation> GetFiltered( Guid? propertyId, DateOnly? fromDate, DateOnly? toDate, string? guestName );
+    IReadOnlyList<Reservation> GetFilteredPage( Guid? propertyId, DateOnly? fromDate, DateOnly? toDate, string? guestName, int skip, int take );
+    int GetFilteredCount( Guid? propertyId, DateOnly? fromDate, DateOnly? toDate, string? guestName );
     IReadOnlyList<Reservation> GetOverlapping( Guid roomTypeId, DateOnly arrivalDate, DateOnly departureDate );
     IReadOnlyList<Reservation> GetOverlappingForAll( DateOnly arrivalDate, DateOnly departureDate );
     Reservation? GetById( Guid id );

@@ -10,10 +10,23 @@ namespace WebApi.Controllers;
 public class PropertiesController( IPropertyService propertyService, IRoomTypeService roomTypeService ) : ControllerBase
 {
     [HttpGet]
-    public ActionResult<List<PropertyDto>> GetAll()
+    public ActionResult<PaginatedResult<PropertyDto>> GetAll(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 10 )
     {
-        IReadOnlyList<Property> properties = propertyService.GetAllProperties();
-        return Ok( properties.Select( PropertyDto.From ).ToList() );
+        int skip = ( page - 1 ) * pageSize;
+        int totalCount = propertyService.GetAllProperties().Count;
+        List<Property> properties = propertyService.GetAllProperties().Skip( skip ).Take( pageSize ).ToList();
+
+        PaginatedResult<PropertyDto> result = new PaginatedResult<PropertyDto>
+        {
+            Items = properties.Select( PropertyDto.From ).ToList(),
+            TotalCount = totalCount,
+            Page = page,
+            PageSize = pageSize
+        };
+
+        return Ok( result );
     }
 
     [HttpGet( "{id}" )]

@@ -10,14 +10,27 @@ namespace WebApi.Controllers;
 public class ReservationsController( IReservationService reservationService ) : ControllerBase
 {
     [HttpGet]
-    public ActionResult<List<ReservationDto>> GetAll(
+    public ActionResult<PaginatedResult<ReservationDto>> GetAll(
         [FromQuery] Guid? propertyId,
         [FromQuery] DateOnly? fromDate,
         [FromQuery] DateOnly? toDate,
-        [FromQuery] string? guestName )
+        [FromQuery] string? guestName,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 10 )
     {
-        IReadOnlyList<Reservation> reservations = reservationService.GetReservations( propertyId, fromDate, toDate, guestName );
-        return Ok( reservations.Select( ReservationDto.From ).ToList() );
+        int skip = ( page - 1 ) * pageSize;
+        int totalCount = reservationService.GetReservations( propertyId, fromDate, toDate, guestName ).Count;
+        List<Reservation> reservations = reservationService.GetReservations( propertyId, fromDate, toDate, guestName ).Skip( skip ).Take( pageSize ).ToList();
+
+        PaginatedResult<ReservationDto> result = new PaginatedResult<ReservationDto>
+        {
+            Items = reservations.Select( ReservationDto.From ).ToList(),
+            TotalCount = totalCount,
+            Page = page,
+            PageSize = pageSize
+        };
+
+        return Ok( result );
     }
 
     [HttpGet( "{id}" )]
