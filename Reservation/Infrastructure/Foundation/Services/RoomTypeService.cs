@@ -39,6 +39,10 @@ public class RoomTypeService(
         ValidatePrice( dailyPrice );
         ValidatePersonCount( minPersonCount, maxPersonCount );
         ValidateAvailableRooms( availableRoomsCount );
+        ValidateRequiredString( name, "Название" );
+        ValidateStringLength( name, "Название", 100 );
+        ValidateStringLength( services, "Сервисы", 500 );
+        ValidateStringLength( amenities, "Удобства", 500 );
 
         RoomType roomType = new RoomType( propertyId, name, dailyPrice, currency, minPersonCount, maxPersonCount, availableRoomsCount, services, amenities );
         roomTypeRepository.Add( roomType );
@@ -68,6 +72,10 @@ public class RoomTypeService(
         ValidatePrice( dailyPrice );
         ValidatePersonCount( minPersonCount, maxPersonCount );
         ValidateAvailableRooms( availableRoomsCount );
+        ValidateRequiredString( name, "Название" );
+        ValidateStringLength( name, "Название", 100 );
+        ValidateStringLength( services, "Сервисы", 500 );
+        ValidateStringLength( amenities, "Удобства", 500 );
         roomType.Update( name, dailyPrice, currency, minPersonCount, maxPersonCount, availableRoomsCount, services, amenities );
         roomTypeRepository.Update( roomType );
     }
@@ -115,6 +123,22 @@ public class RoomTypeService(
         if ( availableRoomsCount < 0 )
         {
             throw new BusinessRuleViolationException( "Количество доступных номеров не может быть отрицательным" );
+        }
+    }
+
+    private static void ValidateRequiredString( string value, string fieldName )
+    {
+        if ( string.IsNullOrWhiteSpace( value ) )
+        {
+            throw new BusinessRuleViolationException( $"{fieldName} обязательно для заполнения" );
+        }
+    }
+
+    private static void ValidateStringLength( string value, string fieldName, int maxLength )
+    {
+        if ( value.Length > maxLength )
+        {
+            throw new BusinessRuleViolationException( $"{fieldName} не может превышать {maxLength} символов" );
         }
     }
 }
