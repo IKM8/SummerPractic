@@ -49,7 +49,7 @@ public class EFReservationRepository( ReservationDbContext db ) : IReservationRe
     {
         IQueryable<Reservation> query = BuildFilteredQuery( propertyId, fromDate, toDate, guestName );
 
-        return query.Skip( skip ).Take( take ).ToList();
+        return query.OrderBy( r => r.ArrivalDate ).Skip( skip ).Take( take ).ToList();
     }
 
     public int GetFilteredCount( Guid? propertyId, DateOnly? fromDate, DateOnly? toDate, string? guestName )
