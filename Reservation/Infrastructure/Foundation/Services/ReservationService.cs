@@ -15,6 +15,16 @@ public class ReservationService(
         return reservationRepository.GetFiltered( propertyId, fromDate, toDate, guestName );
     }
 
+    public IReadOnlyList<Reservation> GetFilteredPage( Guid? propertyId, DateOnly? fromDate, DateOnly? toDate, string? guestName, int skip, int take )
+    {
+        return reservationRepository.GetFilteredPage( propertyId, fromDate, toDate, guestName, skip, take );
+    }
+
+    public int GetFilteredCount( Guid? propertyId, DateOnly? fromDate, DateOnly? toDate, string? guestName )
+    {
+        return reservationRepository.GetFilteredCount( propertyId, fromDate, toDate, guestName );
+    }
+
     public Reservation GetReservation( Guid id )
     {
         return reservationRepository.GetById( id ) ?? throw new EntityNotFoundException( "Бронирование не найдено" );

@@ -19,8 +19,8 @@ public class ReservationsController( IReservationService reservationService ) : 
         [FromQuery] int pageSize = 10 )
     {
         int skip = ( page - 1 ) * pageSize;
-        int totalCount = reservationService.GetReservations( propertyId, fromDate, toDate, guestName ).Count;
-        List<Reservation> reservations = reservationService.GetReservations( propertyId, fromDate, toDate, guestName ).Skip( skip ).Take( pageSize ).ToList();
+        int totalCount = reservationService.GetFilteredCount( propertyId, fromDate, toDate, guestName );
+        IReadOnlyList<Reservation> reservations = reservationService.GetFilteredPage( propertyId, fromDate, toDate, guestName, skip, pageSize );
 
         PaginatedResult<ReservationDto> result = new PaginatedResult<ReservationDto>
         {

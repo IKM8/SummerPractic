@@ -5,6 +5,8 @@ namespace Domain.Interfaces.Services;
 public interface IReservationService
 {
     IReadOnlyList<Reservation> GetReservations( Guid? propertyId, DateOnly? fromDate, DateOnly? toDate, string? guestName );
+    IReadOnlyList<Reservation> GetFilteredPage( Guid? propertyId, DateOnly? fromDate, DateOnly? toDate, string? guestName, int skip, int take );
+    int GetFilteredCount( Guid? propertyId, DateOnly? fromDate, DateOnly? toDate, string? guestName );
     Reservation GetReservation( Guid id );
     Guid CreateReservation(
         Guid roomTypeId,
