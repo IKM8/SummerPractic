@@ -33,6 +33,11 @@ public class ReservationService(
         RoomType roomType = roomTypeRepository.GetById( roomTypeId )
             ?? throw new EntityNotFoundException( "Тип номера не найден" );
 
+        if ( !roomType.IsActive )
+        {
+            throw new BusinessRuleViolationException( "Нельзя забронировать удалённую категорию номера" );
+        }
+
         if ( departureDate <= arrivalDate )
         {
             throw new BusinessRuleViolationException( "Дата выезда должна быть позже даты заезда" );
