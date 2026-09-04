@@ -178,10 +178,34 @@ public class ReservationService(
                     continue;
                 }
 
-                bookedCountByRoomType.TryGetValue( roomType.Id, out int bookedRooms );
-                int availableRooms = roomType.AvailableRoomsCount - bookedRooms;
+                bookedCountByRoomType.TryGetValue( roomType.Id, out int totalBooked );
 
-                if ( availableRooms <= 0 )
+                if ( totalBooked >= roomType.AvailableRoomsCount )
+                {
+                    continue;
+                }
+
+                int maxBookedOnAnyNight = 0;
+
+                for ( DateOnly night = arrivalDate; night < departureDate; night = night.AddDays( 1 ) )
+                {
+                    int bookedOnNight = 0;
+
+                    foreach ( Reservation reservation in overlapping )
+                    {
+                        if ( reservation.RoomTypeId == roomType.Id && reservation.ArrivalDate <= night && reservation.DepartureDate > night )
+                        {
+                            bookedOnNight++;
+                        }
+                    }
+
+                    if ( bookedOnNight > maxBookedOnAnyNight )
+                    {
+                        maxBookedOnAnyNight = bookedOnNight;
+                    }
+                }
+
+                if ( maxBookedOnAnyNight >= roomType.AvailableRoomsCount )
                 {
                     continue;
                 }
@@ -196,7 +220,7 @@ public class ReservationService(
                     DailyPrice = roomType.DailyPrice,
                     Currency = roomType.Currency,
                     TotalForStay = roomType.DailyPrice * nights,
-                    AvailableRooms = availableRooms
+                    AvailableRooms = roomType.AvailableRoomsCount - maxBookedOnAnyNight
                 } );
             }
         }
