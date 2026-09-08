@@ -11,6 +11,12 @@ public class FightManager( IRandomProvider random )
     public FightReport Fight( IReadOnlyList<IFighter> fighters )
     {
         List<RoundReport> rounds = new List<RoundReport>();
+
+        if ( fighters.Count < 2 )
+        {
+            return new FightReport( rounds, null );
+        }
+
         List<IFighter> alive = fighters.Where( f => f.IsAlive ).ToList();
 
         int roundNumber = 1;
