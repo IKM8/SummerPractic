@@ -102,18 +102,6 @@ public class Character : IFighter
         Defense = raceDef + armorDef;
     }
 
-    public void Attack( IFighter target )
-    {
-        int damage = Math.Max( Strength - ( ( Character )target ).Defense, 0 );
-        ( ( Character )target ).Health -= damage;
-        Console.WriteLine( $"{Name} нанёс {damage} урона {target.Name}" );
-    }
-
-    public int CalculateDamage( IFighter target )
-    {
-        return Math.Max( Strength - ( ( Character )target ).Defense, 0 );
-    }
-
     public void ApplyDamage( int damage )
     {
         Health = Math.Max( 0, Health - damage );
