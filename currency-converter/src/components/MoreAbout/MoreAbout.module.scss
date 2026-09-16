@@ -1,0 +1,55 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.pair-button {
+  inline-size: 215px;
+  block-size: 50px;
+  font:
+    400 20px/1 Inter,
+    sans-serif;
+}
+
+.arrow {
+  display: inline-block;
+  vertical-align: middle;
+
+  inline-size: 15px;
+  block-size: 15px;
+  margin-inline-start: 5px;
+}
+
+.line {
+  flex: 1;
+  block-size: 1px;
+  background: var(--border);
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  margin: 0;
+  margin-block-end: 15px;
+  color: var(--text-main);
+  font:
+    700 25px/1 Inter,
+    sans-serif;
+}
+
+.description {
+  margin: 0;
+  color: var(--text-description);
+  font:
+    400 20px/1.1 Inter,
+    sans-serif;
+}

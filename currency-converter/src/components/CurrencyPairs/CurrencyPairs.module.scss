@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pair {
+  inline-size: 95px;
+  block-size: 30px;
+  font:
+    400 15px/1 Inter,
+    sans-serif;
+}

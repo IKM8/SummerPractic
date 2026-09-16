@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  max-inline-size: 565px;
+}
+
+.periods {
+  display: flex;
+  justify-content: space-between;
+}
+
+.period-button {
+  inline-size: 95px;
+  block-size: 32px;
+  font:
+    400 15px/1 Inter,
+    sans-serif;
+}
+
+.chart {
+  inline-size: 100%;
+  padding-block-start: 25px;
+}
